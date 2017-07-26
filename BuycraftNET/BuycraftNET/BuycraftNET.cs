@@ -1,5 +1,5 @@
 using BuycraftNET.Command;
-using BuycraftNET.Command.Buycraft;
+//using BuycraftNET.Command.Buycraft;
 //using BuycraftNET.Command.Buy;
 
 using MiNET;
@@ -12,22 +12,29 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 
-using YamlDotNet;
-using YamlDotNet.Core;
-using YamlDotNet.Serialization;
+using IniParser;
+using IniParser.Model;
 
 namespace BuycraftNET
 {
     [Plugin(PluginName = "BuycraftNET", Description = "MiNET Buycraft plugin.", PluginVersion = "1.0", Author = "Buycraft")]
     public class BuycraftNET : Plugin
     {
+        private FileIniDataParser _parser;
+        private IniData _config;
+        private static readonly HttpClient _httpClient = new HttpClient();
+        
         protected override void OnEnable()
         {
+
+            this._parser = new FileIniDataParser();
+            this._config = this._parser.ReadFile(this.GetConfigFile());
+            
             Context.PluginManager.LoadCommands(new Buycraft(this));
 //            Context.PluginManager.LoadCommands(new Buy(this));            
-            EIO();
 
             var commandChecker = new CommandChecker(this);
             var autoEvent = new AutoResetEvent(false);
@@ -37,28 +44,41 @@ namespace BuycraftNET
         }
 
         public string GetDataFolder() => Path.Combine(new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath, "BuycraftNET");
-        public void EIO()
+
+        public string GetConfigFile()
         {
-            CTDT(GetDataFolder());
-            //TODO
-        }
-        public void CTDT(string name)
-        {
-            DirectoryInfo temp = new DirectoryInfo(name);
-            if (!temp.Exists)
+            DirectoryInfo buycraftDataDirectory = new DirectoryInfo(GetDataFolder());
+            if (!buycraftDataDirectory.Exists)
             {
-                temp.Create();
+                buycraftDataDirectory.Create();
             }
-        }
-        public void CTFL(string name)
-        {
-            FileInfo temp = new FileInfo(name);
-            if (!temp.Exists)
+            
+            FileInfo buycraftConfigFile = new FileInfo(GetDataFolder() + "config.txt" );
+            if (!buycraftConfigFile.Exists)
             {
-                FileStream fs = temp.Create();
+                FileStream fs = buycraftConfigFile.Create();
                 fs.Close();
             }
+
+            return GetDataFolder() + "config.txt";
         }
+
+        public string GetConfig(string key)
+        {
+            return this._config["buycraft"][key];
+        }
+
+        public void SetConfig(string key, string value)
+        {
+            this._config["buycraft"][key] = value;
+            this._parser.WriteFile(this.GetConfigFile(), this._config);
+        }
+
+        public HttpClient GetHttpClient()
+        {
+            return _httpClient;
+        }
+        
     }
 
     public class CommandChecker
@@ -70,9 +90,15 @@ namespace BuycraftNET
             Plugin = plugin;
         }
 
-        public void function CheckCommands()
+        public void CheckCommands(Object stateInfo)
         {
+            Console.WriteLine("Config:" + Plugin.GetConfigFile());
+            Plugin.SetConfig("secret", "blah");
+            Console.WriteLine(Plugin.GetConfig("secret"));
             Console.WriteLine("Do Command Check!");
+
+            var httpClient = Plugin.GetHttpClient();
+            
         }
     }
 }
