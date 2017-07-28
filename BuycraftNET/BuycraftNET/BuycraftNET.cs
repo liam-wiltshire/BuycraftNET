@@ -3,9 +3,9 @@ using BuycraftNET.Command;
 using MiNET.Plugins;
 using MiNET.Plugins.Attributes;
 using MiNET.Worlds;
-using System.Collections.Generic;
 
 using System;
+using System.Collections.Concurrent;
 using System.Timers;
 using System.IO;
 using System.Reflection;
@@ -14,7 +14,11 @@ using IniParser;
 using IniParser.Model;
 
 using BuycraftNET.Api;
+using MiNET;
 using MiNET.Plugins.Commands;
+
+using System.Linq;
+using System.Net;
 
 namespace BuycraftNET
 {
@@ -78,13 +82,13 @@ namespace BuycraftNET
 
         public string GetConfig(string key)
         {
-            return this._config["buycraft"][key];
+            return _config["buycraft"][key];
         }
 
         public void SetConfig(string key, string value)
         {
-            this._config["buycraft"][key] = value;
-            this._parser.WriteFile(this.GetConfigFile(), this._config);
+            _config["buycraft"][key] = value;
+            _parser.WriteFile(this.GetConfigFile(), _config);
         }
 
         public void LogInfo(string message)
@@ -106,16 +110,20 @@ namespace BuycraftNET
         {
             return Context.PluginManager;
         }
-        
+
+        public MiNetServer GetServer()
+        {
+            return Context.Server;
+        }
     }
 
     public class CommandChecker
     {
-        private BuycraftNET Plugin;
+        private BuycraftNET _plugin;
 
         public CommandChecker (BuycraftNET plugin)
         {
-            Plugin = plugin;
+            _plugin = plugin;
         }
 
         public void CheckCommands(Object source, ElapsedEventArgs e)
