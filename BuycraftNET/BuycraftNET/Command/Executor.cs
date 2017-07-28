@@ -25,10 +25,9 @@ namespace BuycraftNET.Command
             Plugin = plugin;
         }
         
-        public void ExecuteCommand(Player sender, string command)
+        public void ExecuteCommand(string command)
         {
-
-            //Player sender = new Player(Plugin.GetServer(),new IPEndPoint(2130706433, 1));
+            Player testsender = Plugin.GetServer().LevelManager.Levels.First().Players.First().Value;
             
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -97,11 +96,11 @@ namespace BuycraftNET.Command
 
 
                     Console.WriteLine("method:" + method.ToString());
-                    Console.WriteLine("sender:" + sender.ToString());
+                    Console.WriteLine("sender:" + testsender.ToString());
                     Console.WriteLine("CommandParmas::" + commandParams.ToString());
                     
                     Console.WriteLine("Invoke:");
-                    pm.GetType().GetTypeInfo().GetDeclaredMethod("ExecuteCommand").Invoke(pm, new object[] {method, sender, commandParams} );
+                    pm.GetType().GetTypeInfo().GetDeclaredMethod("ExecuteCommand").Invoke(pm, new object[] {method, testsender, commandParams} );
 
                     Console.WriteLine("Matching Command:" + pmCommand.Key);
                     break;

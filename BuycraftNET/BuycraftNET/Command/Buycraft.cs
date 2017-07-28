@@ -50,7 +50,7 @@ namespace BuycraftNET.Command
         private void Test(Player sender)
         {
             Executor executor = new Executor(Plugin);
-            executor.ExecuteCommand(sender, "xp 1000 Steve");
+            executor.ExecuteCommand("xp 1000 Steve");
         }
         
     }
