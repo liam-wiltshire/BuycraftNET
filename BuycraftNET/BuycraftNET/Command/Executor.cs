@@ -89,7 +89,33 @@ namespace BuycraftNET.Command
                                 }
                                 
                                 commandParams[x] = JsonConvert.SerializeObject(target, jsonSerializerSettings);
-                            }    
+                            }
+                            else if (parameter.ParameterType == typeof(BlockPos))
+                            {
+                                BlockPos blockPos = new BlockPos();
+                                int y = 0;
+                                while (y < 3)
+                                {
+                                    if (y == 0)
+                                    {
+                                        blockPos.X = Convert.ToInt32(commandParams[x]);
+                                        x++;
+                                    }
+                                    else if (y == 1)
+                                    {
+                                        blockPos.Y = Convert.ToInt32(commandParams[x]);
+                                        x++;
+                                    }
+                                    else if (y == 2)
+                                    {
+                                        blockPos.Z = Convert.ToInt32(commandParams[x]);
+                                    }
+                                                                        
+                                    y++;
+                                }
+                                
+                                //blockPos.
+                            }
                         }                        
                         x++;
                     }                    
