@@ -2,6 +2,7 @@ using MiNET;
 using MiNET.Plugins.Attributes;
 using MiNET.Utils;
 using System;
+using MiNET.Plugins;
 
 namespace BuycraftNET.Command
 {
@@ -12,6 +13,12 @@ namespace BuycraftNET.Command
         public Buycraft(BuycraftNET plugin)
         {
             Plugin = plugin;
+        }
+
+        [Command(Name = "bctest", Description = "BC Test")]
+        public void Bctest(Player sender, BlockPos blockPos)
+        {
+            Console.WriteLine(blockPos.ToString());
         }
         
         [Command(Name = "buycraft", Description = "Buycraft Management", Permission = "op")]
@@ -50,7 +57,7 @@ namespace BuycraftNET.Command
         private void Test(Player sender)
         {
             Executor executor = new Executor(Plugin);
-            executor.ExecuteCommand(sender, "xp 1000 Steve");
+            executor.ExecuteCommand("xp 1000 Steve");
         }
         
     }

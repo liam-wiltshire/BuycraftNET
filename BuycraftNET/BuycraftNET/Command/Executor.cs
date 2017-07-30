@@ -25,10 +25,9 @@ namespace BuycraftNET.Command
             Plugin = plugin;
         }
         
-        public void ExecuteCommand(Player sender, string command)
+        public void ExecuteCommand(string command)
         {
-
-            //Player sender = new Player(Plugin.GetServer(),new IPEndPoint(2130706433, 1));
+            Player testsender = Plugin.GetServer().LevelManager.Levels.First().Players.First().Value;
             
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -90,18 +89,44 @@ namespace BuycraftNET.Command
                                 }
                                 
                                 commandParams[x] = JsonConvert.SerializeObject(target, jsonSerializerSettings);
-                            }    
+                            }
+                            else if (parameter.ParameterType == typeof(BlockPos))
+                            {
+                                BlockPos blockPos = new BlockPos();
+                                int y = 0;
+                                while (y < 3)
+                                {
+                                    if (y == 0)
+                                    {
+                                        blockPos.X = Convert.ToInt32(commandParams[x]);
+                                        x++;
+                                    }
+                                    else if (y == 1)
+                                    {
+                                        blockPos.Y = Convert.ToInt32(commandParams[x]);
+                                        x++;
+                                    }
+                                    else if (y == 2)
+                                    {
+                                        blockPos.Z = Convert.ToInt32(commandParams[x]);
+                                    }
+                                                                        
+                                    y++;
+                                }
+                                
+                                //blockPos.
+                            }
                         }                        
                         x++;
                     }                    
 
 
                     Console.WriteLine("method:" + method.ToString());
-                    Console.WriteLine("sender:" + sender.ToString());
+                    Console.WriteLine("sender:" + testsender.ToString());
                     Console.WriteLine("CommandParmas::" + commandParams.ToString());
                     
                     Console.WriteLine("Invoke:");
-                    pm.GetType().GetTypeInfo().GetDeclaredMethod("ExecuteCommand").Invoke(pm, new object[] {method, sender, commandParams} );
+                    pm.GetType().GetTypeInfo().GetDeclaredMethod("ExecuteCommand").Invoke(pm, new object[] {method, testsender, commandParams} );
 
                     Console.WriteLine("Matching Command:" + pmCommand.Key);
                     break;
