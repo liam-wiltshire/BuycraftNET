@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="Api\ApiClient.cs" />
     <Compile Include="Command\Buycraft.cs" />
-    <Compile Include="Command\Buy.cs" />
     <Compile Include="BuycraftNET.cs" />
     <Compile Include="Command\Executor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

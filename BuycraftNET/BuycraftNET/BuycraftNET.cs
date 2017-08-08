@@ -40,8 +40,7 @@ namespace BuycraftNET
             
             _apiClient = new ApiClient(this);
             
-            Context.PluginManager.LoadCommands(new Buycraft(this));
-            Context.PluginManager.LoadCommands(new Buy(this));            
+            Context.PluginManager.LoadCommands(new Buycraft(this));   
 
             var commandChecker = new CommandChecker(this);
             

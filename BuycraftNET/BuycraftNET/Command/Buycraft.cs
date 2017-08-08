@@ -14,38 +14,18 @@ namespace BuycraftNET.Command
         {
             Plugin = plugin;
         }
-
-        [Command(Name = "bctest", Description = "BC Test")]
-        public void Bctest(Player sender, BlockPos blockPos)
-        {
-            Console.WriteLine(blockPos.ToString());
-        }
         
-        [Command(Name = "buycraft", Description = "Buycraft Management", Permission = "op")]
-        public void Execute(Player sender, string command, string param=null)
-        {
-            Console.WriteLine(sender.PermissionLevel.ToString());
-            sender.SendMessage(ChatColors.Green + "You asked for " + command + " " + param );
-            switch (command)
-            {
-                case "secret":
-                    Secret(sender, param);
-                    break;       
-                case "test":
-                    Test(sender);
-                    break;
-            }
-        }
-
-        private void Secret(Player sender, string param)
+        [Command(Name = "buycraft secret", Permission = "op")]
+        public void Secret(Player sender, string secret)
         {
             Plugin.LogInfo("Checking Key");
-            Plugin.SetConfig("secret", param);
+            Plugin.SetConfig("secret", secret);
             var storeInfo = Plugin.GetApiClient().GetInformation();
 
             if (storeInfo.Result == null)
             {
-                sender.SendMessage(ChatColors.Red + "This is not a valid secret key");                
+                sender.SendMessage(ChatColors.Red + "This is not a valid secret key");
+                Plugin.SetConfig("secret", "");
             }
             else
             {
@@ -54,11 +34,51 @@ namespace BuycraftNET.Command
             }
         }
 
-        private void Test(Player sender)
+        [Command(Name = "buycraft refresh", Permission = "op")]
+        public void Refresh(Player sender)
         {
-            Executor executor = new Executor(Plugin);
-            executor.ExecuteCommand("xp 1000 Steve");
+            NotImplemented(sender);
+            //TODO
         }
         
+        [Command(Name = "buycraft forcecheck", Permission = "op")]
+        public void Forcecheck(Player sender)
+        {
+            NotImplemented(sender);
+            //TODO
+        }        
+        
+        [Command(Name = "buycraft report", Permission = "op")]
+        public void Report(Player sender)
+        {
+            NotImplemented(sender);
+            //TODO
+        }        
+        
+        [Command(Name = "buycraft signupdate", Permission = "op")]
+        public void Signupdate(Player sender)
+        {
+            NotImplemented(sender);
+            //TODO
+        }        
+        
+        [Command(Name = "buycraft coupon list", Permission = "op")]
+        public void Coupon(Player sender)
+        {
+            NotImplemented(sender);
+            //TODO
+        }         
+        
+        [Command(Name = "buy")]
+        public void Refresh(Player sender)
+        {
+            NotImplemented(sender);
+            //TODO
+        }        
+
+        private void NotImplemented(Player sender)
+        {
+            sender.SendMessage(ChatColors.Red + "This command has not been implemented yet");
+        }
     }
 }

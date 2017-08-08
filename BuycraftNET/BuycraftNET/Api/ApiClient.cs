@@ -76,5 +76,26 @@ namespace BuycraftNET.Api
             }
             
         }
+        
+        public async Task<JObject> GetDuePlayers(int perpage, int page=1)
+        {
+            try
+            {
+                var response = await this.Get(
+                    "https://plugin.buycraft.net/queue?limit="
+                    +perpage.ToString()
+                    +"&page="
+                    +page.ToString()
+                ).ConfigureAwait(false);
+                Console.WriteLine("Getting Response");
+                return response;
+            }
+            catch (Exception e)
+            {
+                _plugin.LogError(e.Message);
+                return null;
+            }
+            
+        }        
     }
 }

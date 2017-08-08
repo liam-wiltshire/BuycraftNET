@@ -114,7 +114,7 @@ namespace BuycraftNET.Command
                                     y++;
                                 }
                                 
-                                //blockPos.
+                                commandParams[x] = JsonConvert.SerializeObject(blockPos, jsonSerializerSettings);
                             }
                         }                        
                         x++;
