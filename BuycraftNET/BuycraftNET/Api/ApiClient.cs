@@ -17,6 +17,7 @@ namespace BuycraftNET.Api
         
         private async Task<JObject> Get(string url)
         {
+            Console.WriteLine("GETting " + url);
             using (var httpClient = new HttpClient())
             {
                 try
@@ -49,8 +50,6 @@ namespace BuycraftNET.Api
                         }
                         
                     }
-
-                    
                     
                     return json;
                 }
@@ -77,16 +76,13 @@ namespace BuycraftNET.Api
             
         }
         
-        public async Task<JObject> GetDuePlayers(int perpage, int page=1)
+        public async Task<JObject> GetDuePlayers()
         {
             try
             {
                 var response = await this.Get(
-                    "https://plugin.buycraft.net/queue?limit="
-                    +perpage.ToString()
-                    +"&page="
-                    +page.ToString()
-                ).ConfigureAwait(false);
+                    "https://plugin.buycraft.net/queue?"
+                    ).ConfigureAwait(false);
                 Console.WriteLine("Getting Response");
                 return response;
             }

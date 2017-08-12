@@ -70,7 +70,7 @@ namespace BuycraftNET.Command
         }         
         
         [Command(Name = "buy")]
-        public void Refresh(Player sender)
+        public void Buy(Player sender)
         {
             NotImplemented(sender);
             //TODO

@@ -2,10 +2,8 @@ using BuycraftNET.Command;
 
 using MiNET.Plugins;
 using MiNET.Plugins.Attributes;
-using MiNET.Worlds;
 
 using System;
-using System.Collections.Concurrent;
 using System.Timers;
 using System.IO;
 using System.Reflection;
@@ -17,8 +15,7 @@ using BuycraftNET.Api;
 using MiNET;
 using MiNET.Plugins.Commands;
 
-using System.Linq;
-using System.Net;
+using BuycraftNET.Services;
 
 namespace BuycraftNET
 {
@@ -46,7 +43,7 @@ namespace BuycraftNET
             
 
             //Start the timer for checking commands
-            var stateTimer = new Timer(5000);
+            var stateTimer = new Timer(10000);
             stateTimer.Elapsed += commandChecker.CheckCommands;
             stateTimer.AutoReset = true;
             stateTimer.Enabled = true;
@@ -114,22 +111,5 @@ namespace BuycraftNET
         {
             return Context.Server;
         }
-    }
-
-    public class CommandChecker
-    {
-        private BuycraftNET _plugin;
-
-        public CommandChecker (BuycraftNET plugin)
-        {
-            _plugin = plugin;
-        }
-
-        public void CheckCommands(Object source, ElapsedEventArgs e)
-        {
-//            var result = Plugin.GetApiClient().Get("https://plugin.buycraft.net/versions/sponge");
-//            Console.WriteLine(result.Result.ToString());
-        }
-
     }
 }

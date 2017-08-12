@@ -110,7 +110,9 @@
     <Compile Include="Command\Buycraft.cs" />
     <Compile Include="BuycraftNET.cs" />
     <Compile Include="Command\Executor.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
