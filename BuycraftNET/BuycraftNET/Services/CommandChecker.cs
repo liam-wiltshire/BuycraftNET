@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using MiNET;
 
 using BuycraftNET.Models;
+using MiNET.Blocks;
+using MiNET.Plugins;
 using MiNET.Worlds;
 
 namespace BuycraftNET.Services
@@ -68,11 +70,31 @@ namespace BuycraftNET.Services
                 //Is the player online?
                 Level level = (Level) _plugin.GetServer().LevelManager.Levels.First();
                 
-                if (level.GetSpawnedPlayers().Where(p => p.Username == player.getIgn()).ToArray().Length > 0)
+                if (level.GetSpawnedPlayers().Where(p => p.Username == player.getIgn()).ToArray().Length == 0)
                 {
+                    Player pluginPlayer = level.GetSpawnedPlayers().First(p => p.Username == player.getIgn());
                     Console.WriteLine(player.getIgn() + " is online");
                     //Fetch commands for player
+                    var commands = _plugin.GetApiClient().GetPlayerQueue(player.getId());
+                    Console.WriteLine(commands.Result.ToString());
+                    _plugin.LogInfo("Fetched " + commands.Result["commands"].ToArray().Length + " commands for player " + player.getIgn());
                     //Execute commands
+                    foreach (var command in commands.Result["commands"])
+                    {
+                        if ((int) command["conditions"]["slots"] > 0)
+                        {
+                            int slots = pluginPlayer.Inventory.Slots.Where(i => i.GetType() == typeof(Air)).Count();
+                            Console.WriteLine("Player has " + slots + " free slots");
+                            if (slots < (int) command["conditions"]["slots"])
+                            {
+                                continue;
+                            }
+                        }
+                        
+                        //command["command"]
+                        //command["conditions"]["delay"]
+                        //command["conditions"]["slots"]
+                    }
                 }
                 else
                 {

@@ -21,6 +21,10 @@
         {
             return ign;
         }
-           
+
+        public int getId()
+        {
+            return id;
+        }           
     }
 }

@@ -43,7 +43,7 @@ namespace BuycraftNET
             
 
             //Start the timer for checking commands
-            var stateTimer = new Timer(10000);
+            var stateTimer = new Timer(30000);
             stateTimer.Elapsed += commandChecker.CheckCommands;
             stateTimer.AutoReset = true;
             stateTimer.Enabled = true;

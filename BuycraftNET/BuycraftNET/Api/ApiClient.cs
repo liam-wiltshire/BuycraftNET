@@ -90,8 +90,24 @@ namespace BuycraftNET.Api
             {
                 _plugin.LogError(e.Message);
                 return null;
+            }            
+        }
+        
+        public async Task<JObject> GetPlayerQueue(int playerId)
+        {
+            try
+            {
+                var response = await this.Get(
+                    "https://plugin.buycraft.net/queue/online-commands/" + playerId
+                ).ConfigureAwait(false);
+                Console.WriteLine("Getting Response");
+                return response;
             }
-            
+            catch (Exception e)
+            {
+                _plugin.LogError(e.Message);
+                return null;
+            }    
         }        
-    }
+    }   
 }
